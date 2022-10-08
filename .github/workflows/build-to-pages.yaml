@@ -3,7 +3,7 @@
 name: build-to-pages
 
 env:
-  PUBLISH_DIR: ./Alcedosoft.Blazor.Sqlite.FileSystemAccess/bin/Release/net7.0/publish/wwwroot
+  PUBLISH_DIR: ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/bin/Release/net7.0/publish/wwwroot
   
 # Controls when the workflow will run
 on:
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Publish app
-        run: dotnet publish -c Release ./Alcedosoft.Blazor.Sqlite.FileSystemAccess/Alcedosoft.Blazor.Sqlite.FileSystemAccess.csproj
+        run: dotnet publish -c Release ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj
   
       - name: GitHub Pages
         if: success()
