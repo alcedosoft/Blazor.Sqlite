@@ -2,9 +2,6 @@
 
 name: build-to-pages
 
-env:
-  PUBLISH_DIR: ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/bin/Release/net7.0/publish/wwwroot
-  
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -27,16 +24,23 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      # Install .NET 7.0 SDK
+      - name: Setup .NET 7 preview
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.0.x'
+          include-prerelease: true
 
       - name: Publish app
-        run: dotnet publish -c Release ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj
+        run: dotnet publish -c Release -o build ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj
   
       - name: GitHub Pages
         if: success()
         uses: crazy-max/ghaction-github-pages@v1.5.1
         with:
           target_branch: gh-pages
-          build_dir: ${{ env.PUBLISH_DIR }}
+          build_dir: build/wwwroot
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
