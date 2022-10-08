@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32916.344
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alcedosoft.Blazor.Sqlite.FileSystemAccess", "Alcedosoft.Blazor.Sqlite.FileSystemAccess\Alcedosoft.Blazor.Sqlite.FileSystemAccess.csproj", "{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample", "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample\Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj", "{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF90FFCC-6537-405D-B023-8AC56944E6D9}
+	EndGlobalSection
+EndGlobal

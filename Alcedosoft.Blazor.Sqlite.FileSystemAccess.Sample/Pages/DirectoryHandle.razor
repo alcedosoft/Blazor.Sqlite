@@ -1,0 +1,151 @@
+﻿@page "/DirectoryHandle"
+
+<PageTitle>Todo - DirectoryHandle</PageTitle>
+
+<p>Persist data to a directory of your choice, via the FileSystem Access API.</p>
+
+@if (init)
+{
+    <ul>
+        @foreach (var todo in todos)
+        {
+            <li>
+                <input type="checkbox" checked="@todo.IsDone" @onchange="e => IsDoneChanged(todo, e)" />
+                <input value="@todo.Title" @onchange="e => TitleChanged(todo, e)" />
+            </li>
+        }
+    </ul>
+
+    <input placeholder="Something todo" @bind="newTodo" />
+    <button @onclick="AddTodoAsync">Add todo</button>
+}
+else
+{
+    if (directoryHandle is not null)
+    {
+        <button @onclick="_ => InitAsync(directoryHandle)">Use @directoryHandle.Name</button>
+        <br />
+    }
+    else
+    {
+        <button @onclick="OpenDirectoryPickerAsync">Open Directory</button>
+    }
+}
+
+@code {
+    private bool init;
+    private string? newTodo;
+    private List<TodoItem> todos = new();
+    private DirectoryHandleDbContext context = default!;
+    private FileSystemDirectoryHandle? directoryHandle;
+
+    [Inject] public IJSRuntime JSRuntime { get; set; } = default!;
+    [Inject] public ILogger<FileHandle> Logger { get; set; } = default!;
+    [Inject] public IndexedDBManager IndexedDBManager { get; set; } = default!;
+    [Inject] public FileSystemAccessService FileSystemAccessService { get; set; } = default!;
+    [Inject] public IBlazorDbContextFactory<DirectoryHandleDbContext> BlazorDbContextFactory { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await IndexedDBManager.OpenDb();
+
+        var records = await JSRuntime.InvokeAsync<IJSObjectReference>("TimeGhost.IndexedDbManager.getRecords", "DirectoryHandle");
+
+        var length = await JSRuntime.InvokeAsync<int>("getAttribute", records, "length");
+
+        if (length > 0)
+        {
+            var reference = await records.InvokeAsync<IJSObjectReference>("at", length - 1);
+
+            directoryHandle = await FileSystemDirectoryHandle.CreateAsync(reference, this.JSRuntime);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OpenDirectoryPickerAsync()
+    {
+        FileSystemDirectoryHandle? directoryHandle = null;
+
+        try
+        {
+            var options = new DirectoryPickerOptionsStartInWellKnownDirectory
+                {
+                    StartIn = WellKnownDirectory.Downloads,
+                };
+
+            directoryHandle = await this.FileSystemAccessService.ShowDirectoryPickerAsync(options);
+
+            await this.IndexedDBManager.AddRecord(new StoreRecord<IJSObjectReference>
+                {
+                    Storename = "DirectoryHandle",
+                    Data = directoryHandle.JSReference,
+                });
+        }
+        catch (Exception ex)
+        {
+            this.Logger.LogWarning(ex, ex.Message);
+        }
+        finally
+        {
+            if (directoryHandle is not null)
+            {
+                await this.InitAsync(directoryHandle);
+            }
+        }
+    }
+
+    private async Task InitAsync(FileSystemDirectoryHandle directoryHandle)
+    {
+        await directoryHandle.RequestPermissionAsync(new FileSystemHandlePermissionDescriptor
+            {
+                Mode = FileSystemPermissionMode.ReadWrite
+            });
+
+        await this.BlazorDbContextFactory.InitializeAsync(directoryHandle);
+
+        context = await this.BlazorDbContextFactory.CreateDbContextAsync();
+
+        todos = context.TodoItem.ToList();
+
+        init = true;
+    }
+
+    private async Task AddTodoAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            context.TodoItem.Add(new TodoItem { Title = newTodo });
+
+            newTodo = string.Empty;
+
+            await context.SaveChangesAsync();
+
+            todos = context.TodoItem.ToList();
+        }
+    }
+
+    private async Task TitleChanged(TodoItem todo, ChangeEventArgs args)
+    {
+        if (args.Value is string title)
+        {
+            todo.Title = title;
+
+            context.TodoItem.Entry(todo).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+        }
+    }
+
+    private async Task IsDoneChanged(TodoItem todo, ChangeEventArgs args)
+    {
+        if (args.Value is bool isDone)
+        {
+            todo.IsDone = isDone;
+
+            context.TodoItem.Entry(todo).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+        }
+    }
+}

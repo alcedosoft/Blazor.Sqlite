@@ -1,0 +1,78 @@
+﻿@page "/OriginPrivate"
+
+<PageTitle>Todo - OriginPrivate</PageTitle>
+
+<p>Persist data to origin private file system with actual physical path provided by your browser.</p>
+
+<ul>
+    @foreach (var todo in todos)
+    {
+        <li>
+            <input type="checkbox" checked="@todo.IsDone" @onchange="e => IsDoneChanged(todo, e)" />
+            <input value="@todo.Title" @onchange="e => TitleChanged(todo, e)" />
+        </li>
+    }
+</ul>
+
+<input placeholder="Something todo" @bind="newTodo" />
+<button @onclick="AddTodoAsync">Add todo</button>
+
+@code {
+    private string? newTodo;
+    private List<TodoItem> todos = new();
+    private OriginPrivateDbContext context = default!;
+
+    [Inject] public FileSystemAccessService FileSystemAccessService { get; set; } = default!;
+    [Inject] public IBlazorDbContextFactory<OriginPrivateDbContext> BlazorDbContextFactory { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var directory = await this.FileSystemAccessService.GetOriginPrivateDirectory();
+
+        await this.BlazorDbContextFactory.InitializeAsync(directory);
+
+        context = await this.BlazorDbContextFactory.CreateDbContextAsync();
+
+        todos = context.TodoItem.ToList();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task AddTodoAsync()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            context.TodoItem.Add(new TodoItem { Title = newTodo });
+
+            newTodo = string.Empty;
+
+            await context.SaveChangesAsync();
+
+            todos = context.TodoItem.ToList();
+        }
+    }
+
+    private async Task TitleChanged(TodoItem todo, ChangeEventArgs args)
+    {
+        if (args.Value is string title)
+        {
+            todo.Title = title;
+
+            context.TodoItem.Entry(todo).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+        }
+    }
+
+    private async Task IsDoneChanged(TodoItem todo, ChangeEventArgs args)
+    {
+        if (args.Value is bool isDone)
+        {
+            todo.IsDone = isDone;
+
+            context.TodoItem.Entry(todo).State = EntityState.Modified;
+
+            await context.SaveChangesAsync();
+        }
+    }
+}
