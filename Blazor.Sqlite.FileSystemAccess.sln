@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alcedosoft.Blazor.Sqlite.FileSystemAccess", "Alcedosoft.Blazor.Sqlite.FileSystemAccess\Alcedosoft.Blazor.Sqlite.FileSystemAccess.csproj", "{4A4EA155-84BB-48CA-9CC9-2EAA4DC8D1DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample", "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample\Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj", "{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample", "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample\Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj", "{7AFA4945-76B1-4E0E-AD37-5CF5CEA9A473}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
