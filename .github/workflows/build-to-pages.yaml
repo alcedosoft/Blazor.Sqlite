@@ -31,6 +31,10 @@ jobs:
         with:
           dotnet-version: '7.0.x'
           include-prerelease: true
+          
+      # Instal wasm-tools
+      - name: Setup wasm-tools
+        run: dotnet workload restore ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj
 
       - name: Publish app
         run: dotnet publish -c Release -o build ./Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample/Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample.csproj
