@@ -27,7 +27,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var directory = await this.FileSystemAccessService.GetOriginPrivateDirectory();
+        var directory = await this.FileSystemAccessService.GetOriginPrivateDirectoryAsync();
 
         await this.BlazorDbContextFactory.InitializeAsync(directory);
 
