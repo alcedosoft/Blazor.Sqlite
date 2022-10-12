@@ -9,10 +9,10 @@
     <ul>
         @foreach (var todo in todos)
         {
-            <li>
-                <input type="checkbox" checked="@todo.IsDone" @onchange="e => IsDoneChanged(todo, e)" />
-                <input value="@todo.Title" @onchange="e => TitleChanged(todo, e)" />
-            </li>
+          <li>
+            <input type="checkbox" @bind="todo.IsDone" @bind:after="_ => TodoChangedAsync(todo)" />
+            <input @bind="todo.Title" @bind:after="_ => TodoChangedAsync(todo)" />
+          </li>
         }
     </ul>
 
@@ -126,27 +126,10 @@ else
         }
     }
 
-    private async Task TitleChanged(TodoItem todo, ChangeEventArgs args)
+    private async Task TodoChangedAsync(TodoItem todo)
     {
-        if (args.Value is string title)
-        {
-            todo.Title = title;
+        context.TodoItem.Entry(todo).State = EntityState.Modified;
 
-            context.TodoItem.Entry(todo).State = EntityState.Modified;
-
-            await context.SaveChangesAsync();
-        }
-    }
-
-    private async Task IsDoneChanged(TodoItem todo, ChangeEventArgs args)
-    {
-        if (args.Value is bool isDone)
-        {
-            todo.IsDone = isDone;
-
-            context.TodoItem.Entry(todo).State = EntityState.Modified;
-
-            await context.SaveChangesAsync();
-        }
+        await context.SaveChangesAsync();
     }
 }
