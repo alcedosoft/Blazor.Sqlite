@@ -1,5 +1,5 @@
-﻿global using Alcedosoft.Blazor.Sqlite.FileSystemAccess;
-global using Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample;
+﻿global using Alcedosoft.Blazor.Sqlite;
+global using Alcedosoft.Blazor.Sqlite.Sample;
 global using KristofferStrube.Blazor.FileSystemAccess;
 global using Microsoft.AspNetCore.Components.Web;
 global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

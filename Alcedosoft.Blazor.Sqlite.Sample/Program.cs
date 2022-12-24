@@ -17,7 +17,7 @@ builder.Services.AddBlazorDbContextFactory<FileHandleDbContext>(
 
 builder.Services.AddIndexedDB(dbStore =>
 {
-    dbStore.DbName = "Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample";
+    dbStore.DbName = "Alcedosoft.Blazor.Sqlite.Sample";
     dbStore.Version = 1;
 
     dbStore.Stores.Add(new StoreSchema

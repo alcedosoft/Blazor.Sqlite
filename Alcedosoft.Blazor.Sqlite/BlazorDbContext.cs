@@ -1,4 +1,4 @@
-﻿namespace Alcedosoft.Blazor.Sqlite.FileSystemAccess;
+﻿namespace Alcedosoft.Blazor.Sqlite;
 
 public class BlazorDbContext : DbContext
 {

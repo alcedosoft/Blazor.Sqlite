@@ -1,4 +1,4 @@
-﻿namespace Alcedosoft.Blazor.Sqlite.FileSystemAccess.Sample;
+﻿namespace Alcedosoft.Blazor.Sqlite.Sample;
 
 public class TodoItem
 {

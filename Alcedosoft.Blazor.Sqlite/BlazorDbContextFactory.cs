@@ -1,4 +1,4 @@
-﻿namespace Alcedosoft.Blazor.Sqlite.FileSystemAccess;
+﻿namespace Alcedosoft.Blazor.Sqlite;
 
 internal class BlazorDbContextFactory<TDbContext> : IBlazorDbContextFactory<TDbContext>
     where TDbContext : BlazorDbContext

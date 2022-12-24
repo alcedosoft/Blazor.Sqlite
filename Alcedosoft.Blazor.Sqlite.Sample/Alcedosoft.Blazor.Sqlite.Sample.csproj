@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Alcedosoft.Blazor.Sqlite.FileSystemAccess\Alcedosoft.Blazor.Sqlite.FileSystemAccess.csproj" />
+    <ProjectReference Include="..\Alcedosoft.Blazor.Sqlite\Alcedosoft.Blazor.Sqlite.csproj" />
   </ItemGroup>
 
 </Project>
